@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaler-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autoscaler
+  template:
+    metadata:
+      labels:
+        app: autoscaler
+    spec:
+      serviceAccountName: python-client-sa
+      containers:
+      - name: autoscaler
+        image: autoscaler
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: NAMESPACE
+          value: default
+        - name: DEPLOYMENT_NAME
+          value: ml-app-deployment
+        - name: POD_LABEL
+          value: ml-app
+        - name: PROMETHEUS_URL
+          value: "http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090"
+        - name: MIN_REPLICAS
+          value: "3"
+        - name: MAX_REPLICAS
+          value: "6"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
