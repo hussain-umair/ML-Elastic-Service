@@ -5,7 +5,7 @@ An **elastic Machine Learning (ML) inference service** deployed on **Minikube / 
 ---
 
 ## 📐 Architecture Diagram
-View the full architecture diagram and design documentation in the project wiki: 👉 **[ML-Elastic-Service Architecture Diagram Wiki](https://github.com/hussain-umair/ML-Elastic-Service/wiki)**
+View the full architecture diagram and design documentation in the project wiki: 👉 **[ML-Elastic-Service Architecture Diagram Wiki](https://github.com/hussain-umair/ML-Elastic-Service/wiki/Architecture_diagram)**
 
 ---
 
