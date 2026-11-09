@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dispatcher-deployment
+  labels:
+    app: dispatcher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dispatcher
+  template:
+    metadata:
+      labels:
+        app: dispatcher
+    spec:
+      containers:
+        - name: dispatcher
+          image: dispatcher
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8001
+              name: http
+            - containerPort: 9001
+              name: metrics
+          env:
+            - name: ML_SERVICE_URL
+              value: "http://ml-app-service"
+            - name: PORT
+              value: "8000"
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: 2
+            limits:
+              memory: "2Gi"
+              cpu: 2
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3

@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dispatcher-monitor
+  namespace: default
+  labels:
+    app: dispatcher
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: dispatcher
+  endpoints:
+  - port: metrics
+    path: /
+    interval: 5s

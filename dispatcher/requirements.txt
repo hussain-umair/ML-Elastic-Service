@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+asyncio
+httpx
+pillow
+python-multipart
+prometheus_client
+psutil
