@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-app-deployment
+  labels:
+    app: ml-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ml-app
+  template:
+    metadata:
+      labels:
+        app: ml-app
+    spec:
+      containers:
+      - name: ml-app
+        image: ml-app
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 9001
+          name: metrics
+        env:
+        - name: PORT
+          value: "8000"
+        - name: DISPATCHER_URL
+          value: "http://dispatcher-service:8001"
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
